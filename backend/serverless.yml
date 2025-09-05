@@ -1,0 +1,30 @@
+service: filmx-python-backend
+plugins:
+  - serverless-offline
+provider:
+  name: aws
+  runtime: python3.9
+  region: ap-south-1
+  stage: dev
+
+functions:
+  getUsers:
+    handler: handler.get_users
+    events:
+      - httpApi:
+          path: /users
+          method: get
+
+  getPurchases:
+    handler: handler.get_purchases
+    events:
+      - httpApi:
+          path: /purchases
+          method: get
+
+  addPurchase:
+    handler: handler.add_purchase
+    events:
+      - httpApi:
+          path: /purchases
+          method: post

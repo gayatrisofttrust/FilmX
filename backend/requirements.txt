@@ -1,0 +1,4 @@
+npm install -g serverless
+sls deploy
+
+sls offline start
