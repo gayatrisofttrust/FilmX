@@ -20,7 +20,7 @@ jobs:
           pip install aws-sam-cli
 
       - name: Build SAM app
-        run: sam build
+        run: sam build --template backend/template.yaml
 
       - name: Deploy to AWS
         env:
