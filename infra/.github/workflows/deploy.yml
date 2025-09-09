@@ -1,48 +1,31 @@
-name: CI/CD Pipeline
+name: Deploy FastAPI to AWS Lambda
 
 on:
   push:
-    branches:
-      - main
-      - dev
+    branches: [main]
 
 jobs:
-  backend:
-    name: Deploy Backend
-    on:
-      push:
-        branches: [ "main", "dev" ]
-
-    jobs:
-      deploy:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v3
-          - uses: actions/setup-node@v3
-            with:
-              node-version: 18
-          - run: npm install -g serverless
-          - run: npm install
-          - run: npx serverless deploy --stage ${{ github.ref_name }}
-
-  frontend:
-    name: Deploy Frontend
+  deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
     steps:
       - uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          node-version: 18
-      - run: npm ci
-      - run: npm run build
-      - name: Deploy to Amplify
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - run: aws s3 sync build/ s3://my-frontend-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          python-version: '3.11'
+
+      - name: Install AWS SAM CLI
+        run: |
+          pip install aws-sam-cli
+
+      - name: Build SAM app
+        run: sam build
+
+      - name: Deploy to AWS
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-east-1'
+        run: |
+          sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name fastapi-stack --capabilities CAPABILITY_IAM --region us-east-1

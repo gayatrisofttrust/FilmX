@@ -3,6 +3,7 @@ from src.api.controller import router
 from src.db.connection import engine
 from src.db.connection import Base
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
 
 app = FastAPI()
 app.add_middleware(
@@ -14,3 +15,4 @@ app.add_middleware(
 )
 Base.metadata.create_all(bind=engine)
 app.include_router(router)
+handler = Mangum(app)
