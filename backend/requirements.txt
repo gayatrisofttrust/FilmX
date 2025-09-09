@@ -1,4 +1,4 @@
-npm install -g serverless
-sls deploy
-
-sls offline start
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
