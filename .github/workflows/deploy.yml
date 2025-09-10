@@ -17,7 +17,7 @@ jobs:
       - name: Build Lambda package in Amazon Linux container
         run: |
           docker run --rm -v "$PWD/backend":/var/task public.ecr.aws/lambda/python:3.10 \
-            /bin/bash -c "pip install -r requirements.txt -t package/ && cp main.py src package/"
+            /bin/bash -c "pip install -r requirements.txt -t package/ && cp main.py src package/"  
           cd backend/package && zip -r ../lambda.zip .
 
       - name: Set up Python
