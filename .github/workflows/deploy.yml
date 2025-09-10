@@ -39,11 +39,11 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name manualFunction:dev \
-            --zip-file fileb://lambda.zip
+            --zip-file fileb://backend/lambda.zip
 
       - name: Deploy to Lambda (PROD)
         if: github.ref == 'refs/heads/main'
         run: |
           aws lambda update-function-code \
             --function-name manualFunction \
-            --zip-file fileb://lambda.zip
+            --zip-file fileb://backend/lambda.zip
