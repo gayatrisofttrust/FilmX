@@ -5,3 +5,6 @@ psycopg2-binary
 pydantic_core
 Pydantic
 mangum
+yoyo-migrations
+alembic
+python-dotenv

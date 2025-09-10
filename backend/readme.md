@@ -26,3 +26,9 @@ cp ../main.py .
 cp -r ../src .
 
 zip -r9 ../lambda.zip .
+
+
+
+
+
+python run_migrations.py
