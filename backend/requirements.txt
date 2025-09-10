@@ -6,5 +6,4 @@ pydantic_core
 Pydantic
 mangum
 yoyo-migrations
-alembic
 python-dotenv
