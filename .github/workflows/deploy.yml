@@ -43,6 +43,7 @@ jobs:
         run: pip install -r backend/requirements.txt
 
       - name: Run DB migrations
+        continue-on-error: true
         env:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
