@@ -14,16 +14,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build Lambda package in Amazon Linux container
-        run: |
-          docker run --rm -v "$PWD/backend":/var/task public.ecr.aws/lambda/python:3.11 \
-            /bin/bash -c "echo hello && ls && cd backend && ls && mkdir -p /var/task/build && cd /var/task/build && pip install -r ../requirements.txt -t . && cp ../main.py . && cp -r ../src ."
-          cd backend/build && zip -r9 ../lambda.zip .
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
+
+      - name: Build Lambda package
+        run: |
+          mkdir -p backend/build
+          pip install -r backend/requirements.txt -t backend/build
+          cp backend/main.py backend/build/
+          cp -r backend/src backend/build/
+
+      - name: Zip Lambda package
+        run: |
+          cd backend/build
+          zip -r9 ../lambda.zip .
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
