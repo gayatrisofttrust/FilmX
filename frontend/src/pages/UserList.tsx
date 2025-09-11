@@ -9,7 +9,7 @@ export const UserList: React.FC = () => {
     useEffect(() => {
         axios.get(`${API_URL}/users`)
             .then(res => setUsers(res.data))
-            .catch(() => setUsers([]));
+            .catch(err => console.error("API error:", err));
     }, []);
 
     return (
