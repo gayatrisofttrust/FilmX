@@ -9,9 +9,9 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://my-testfrontend-app.s3.us-east-1.amazonaws.com", "http://localhost:5173/"
-    ],  # exact frontend origin
-    allow_credentials=True,
+        "https://my-testfrontend-app.s3.us-east-1.amazonaws.com", "http://localhost:5173"
+    ],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
